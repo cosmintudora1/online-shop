@@ -1,0 +1,15 @@
+README.md
+pom.xml
+ro/example/online/shop/api/controller/generated/AddToCartApi.java
+ro/example/online/shop/api/controller/generated/ApiUtil.java
+ro/example/online/shop/api/controller/generated/CartProductsApi.java
+ro/example/online/shop/api/controller/generated/ProductsApi.java
+ro/example/online/shop/api/controller/generated/RemoveFromCartApi.java
+ro/example/online/shop/api/model/generated/AddToCartRequest.java
+ro/example/online/shop/api/model/generated/CartIdentity.java
+ro/example/online/shop/api/model/generated/Errors.java
+ro/example/online/shop/api/model/generated/Product.java
+ro/example/online/shop/api/model/generated/ProductsResponse.java
+ro/example/online/shop/api/model/generated/RemoveItemRequest.java
+ro/example/online/shop/api/model/generated/ShoppingCartItem.java
+ro/example/online/shop/api/model/generated/ShoppingCartItems.java

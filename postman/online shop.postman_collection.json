@@ -1,0 +1,125 @@
+{
+	"info": {
+		"_postman_id": "e87c2225-0f75-444f-9e84-c8b9bcbc1032",
+		"name": "online shop",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "get products",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "requestId",
+						"value": "requestId",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:6060/products?page=1&numberOfProducts=3",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "6060",
+					"path": [
+						"products"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "1"
+						},
+						{
+							"key": "numberOfProducts",
+							"value": "3"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "add to cart",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "requestId",
+						"value": "requestId",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"productId\": \"5ccbd37a-4876-11ec-81d3-0242ac130003\",\r\n  \"quantity\": 2,\r\n  \"userId\": \"12454cb6-4879-11ec-81d3-0242ac130003\",\r\n  \"orderId\": \"b6849821-6735-4cf8-b5a6-48c33007516c\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:6060/add-to-cart",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "6060",
+					"path": [
+						"add-to-cart"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "cart-products",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "requestId",
+						"value": "requestId",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"productId\": \"5ccbd37a-4876-11ec-81d3-0242ac130003\",\r\n  \"quantity\": 2,\r\n  \"userId\": \"12454cb6-4879-11ec-81d3-0242ac130003\",\r\n  \"orderId\": \"b6849821-6735-4cf8-b5a6-48c33007516c\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:6060/cart-products?userId=12454cb6-4879-11ec-81d3-0242ac130003&orderId=296d963b-d01d-4d55-ac6e-6583eab92f1c",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "6060",
+					"path": [
+						"cart-products"
+					],
+					"query": [
+						{
+							"key": "userId",
+							"value": "12454cb6-4879-11ec-81d3-0242ac130003"
+						},
+						{
+							"key": "orderId",
+							"value": "296d963b-d01d-4d55-ac6e-6583eab92f1c"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

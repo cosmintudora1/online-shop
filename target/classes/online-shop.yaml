@@ -1,0 +1,317 @@
+openapi: 3.0.3
+info:
+  title: Online Shop
+  version: '1.0.0'
+tags:
+  - name: Online Shop Service
+security:
+  - { }
+  - BasicAuth: [ ]
+paths:
+
+  '/products':
+    get:
+      tags:
+        - Products
+      summary: Get products
+      operationId: getProducts
+      parameters:
+        - name: requestId
+          in: header
+          required: true
+          schema:
+            type: string
+          description: UUID unique per session
+        - in: query
+          name: page
+          required: false
+          schema:
+            type: number
+            example: 1
+        - in: query
+          name: numberOfProducts
+          required: false
+          schema:
+            type: number
+            example: 15
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductsResponse'
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+        '500':
+          description: internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+  '/add-to-cart':
+    post:
+      tags:
+        - Products
+      summary: Add product to cart
+      parameters:
+        - name: requestId
+          in: header
+          required: true
+          schema:
+            type: string
+          description: UUID received from the caller
+      operationId: addProductToCart
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddToCartRequest'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CartIdentity'
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+        '500':
+          description: internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+                
+  '/cart-products':
+    get:
+      tags:
+        - Shopping Cart
+      summary: Get products from cart
+      operationId: getCartProducts
+      parameters:
+        - name: requestId
+          in: header
+          required: true
+          schema:
+            type: string
+          description: UUID unique per session
+        - in: query
+          name: userId
+          required: true
+          schema:
+            type: string
+            example: "fhdsuhdfks"
+        - in: query
+          name: orderId
+          required: true
+          schema:
+            type: string
+            example: "kqwegjrwq"
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ShoppingCartItems'
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+        '500':
+          description: internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+  '/remove-from-cart':
+    post:
+      tags:
+        - Shopping Cart
+      summary: Remove product from cart
+      operationId: removeProductFromCart
+      parameters:
+        - name: requestId
+          in: header
+          required: true
+          schema:
+            type: string
+          description: UUID unique per session
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RemoveItemRequest'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ShoppingCartItems'
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+        '500':
+          description: internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+components:
+  securitySchemes:
+    BasicAuth:
+      description: |
+        Basic Authentication
+      type: http
+      scheme: basic
+  schemas:
+    ProductsResponse:
+      type: object
+      properties:
+        products:
+          type: array
+          items:
+            $ref: '#/components/schemas/Product'
+    Product:
+      type: object
+      required:
+        - productId
+        - oldPrice
+        - newPrice
+        - discount
+        - photo
+        
+      properties:
+        productId:
+          type: string
+          example: '421te431'
+        oldPrice:
+          type: number
+          example: 2000
+        newPrice:
+          type: number
+          example: 2000
+        discount:
+          type: number
+          example: 20
+        photo:
+          type: string
+          example: "www.poza.ro"
+
+    AddToCartRequest:
+      type: object
+      required:
+        - userId
+        - productId
+        - quantity
+      properties:
+        productId:
+          type: string
+          example: 'fds21341'
+        quantity:
+          type: number
+          example: 2000
+        userId:
+          type: string
+          example: '512fghfd'
+        orderId:
+          type: string
+          example: '523hj67i'
+    CartIdentity:
+      type: object
+      required:
+        - userId
+        - orderId
+      properties:
+        userId:
+          type: string
+          example: '421fdfhh'
+        orderId:
+          type: string
+          example: '987087dsa'
+    ShoppingCartItems:
+      type: object
+      required:
+        - products
+        - totalPrice
+      properties:
+        products:
+          type: array
+          items:
+            $ref: '#/components/schemas/ShoppingCartItem'
+        totalValue:
+          type: number
+          example: 1955
+    ShoppingCartItem:
+      type: object
+      required:
+        - productId
+        - price
+        - quantity
+        - totalPriceItem
+      properties:
+        productId:
+          type: string
+          example: '421fdfhh'
+        price:
+          type: number
+          example: 150
+        quantity:
+          type: number
+          example: 2
+        totalPriceItem:
+          type: number
+          example: 300
+    RemoveItemRequest:
+      type: object
+      required:
+        - userId
+        - orderId
+        - productId
+        - quantity
+      properties:
+        userId:
+          type: string
+          example: '421fdfhh'
+        orderId:
+          type: string
+          example: 'hfsahlga'
+        quantity:
+          type: number
+          example: 2
+        productId:
+          type: string
+          example: 'r152r1rsa'
+
+    Errors:
+      type: object
+      required:
+        - error
+        - message
+      properties:
+        error:
+          type: string
+          example: error
+        message:
+          type: string
+          example: error message
+        code:
+          type: string
+          example: 0-1234
